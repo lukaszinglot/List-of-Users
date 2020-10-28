@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "esnext",
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "baseUrl": "./",
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "types": ["cypress"]
+  },
+  "include": [
+    "**/*.ts", "integration/app-init.spec.tsx"
+  ],
+  "files": ["./support/commands.d.ts"]
+}
