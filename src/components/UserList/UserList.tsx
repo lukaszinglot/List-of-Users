@@ -1,19 +1,17 @@
 import React, { FC } from 'react';
-import { User } from '../../interface/User';
-import { StyledUserList } from './styled';
-import UserListItem from '../UserListItem/UserlistItem';
+import { User } from '../../models/UserModel';
+import { StyledUserList, StyledSpan } from './styled';
+import { UserListItem } from '../UserListItem/UserListItem';
 
 interface UserListProps {
   data: User[];
 }
-const UserList: FC<UserListProps> = ({ data }) => {
+export const UserList: FC<UserListProps> = ({ data }) => {
   return (
     <StyledUserList>
-      {data.map((user, index:number) => (
+      {data.length > 0 ? data.map((user, index) => (
         <UserListItem key={user.id} user={user} index={index}/>
-      ))}
+      )) : <StyledSpan>Brak userów</StyledSpan>}
     </StyledUserList>
   );
 };
-
-export default UserList;
