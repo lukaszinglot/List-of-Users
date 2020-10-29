@@ -10,7 +10,7 @@ describe('Website Run', () => {
 
   it('Should accepts input', () => {
     const typedText = 'Leanne'
-    cy.get('input')
+    cy.get('input[name="userSearch"]')
       .type(typedText)
       .should('have.value', typedText)
   })
