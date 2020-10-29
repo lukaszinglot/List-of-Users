@@ -17,7 +17,7 @@ export const UserSearch: FC = () => {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [ error, setError ] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const debouncedSearchTerm = useDebounce(userInput, 1000);
+  const debouncedSearchTerm = useDebounce(userInput, 500);
 
   
 
@@ -49,7 +49,7 @@ export const UserSearch: FC = () => {
   return (
     <StyledWrapper>
       <StyledTitle>Users list</StyledTitle>
-      <Input value={userInput} handleValueChange={setUserInput} />
+      <Input value={userInput} handleValueChange={setUserInput}/>
       { isSearching && <div>Searching...</div> }
       <UserList data={filteredUsers} />
       { error && <div> Błąd 404.</div> }

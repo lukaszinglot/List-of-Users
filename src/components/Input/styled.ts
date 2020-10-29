@@ -30,3 +30,7 @@ export const StyledInput = styled.input`
       color: #C1C1C1;
   }
 `;
+
+export const StyledLabel = styled.label`
+  display:none
+`;

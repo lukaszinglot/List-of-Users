@@ -19,5 +19,3 @@ export const apiCall = <T>(): Promise<T> => {
     throw error;
   });
 };
-
-  //dodać konfig eslinta, dodać label do inputa, dodać htmlFor (accesibility w sieci), w divie znajdz paragraf Leanne
