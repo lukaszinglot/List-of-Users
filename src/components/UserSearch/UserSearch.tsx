@@ -1,49 +1,58 @@
 import React, { FC, useState, useEffect } from 'react';
-import { apiCall } from '../../api/AuthApi';
+import { apiCall } from '../../api/UserApi';
 import { StyledWrapper, StyledTitle } from './styled';
 import { Input } from '../Input/Input'
-import  UserList  from '../UserList/UserList'
-import { User } from '../../interface/User'
+import { UserList }  from '../UserList/UserList'
+import { User } from '../../models/UserModel'
+import { getFilteredUsers } from './filterUsers'
+import { useDebounce } from '../../utils/useDebounce'
 
-const UserSearch: FC = () => {
-  const API_URL =  'https://jsonplaceholder.typicode.com';
+export const UserSearch: FC = () => {
+  
 
   const [userInput, setUserInput] = useState('');
   const [payload, setPayload] = useState<{ data: User[]}>({
     data: []
   });
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [ error, setError ] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const debouncedSearchTerm = useDebounce(userInput, 1000);
 
   
 
   const getUserData = async () => {
     try {
-      const data = await apiCall<User[]>(API_URL);
+      const data = await apiCall<User[]>();
       setPayload(prev => ({ ...prev, data}));
-      
+      setError(false);
     } catch (error) {
-      setPayload(prev => ({ ...prev}));
+      setError(true);
     }
   };
-
-  const filterUsers: (arr: User[]) => (name: string) => User[] = arr => name =>
-  arr.filter(user => user.name.toLowerCase().includes(name.toLowerCase()));
 
   useEffect(() => {
     getUserData();
   }, []);
 
   useEffect(() => {
-    setFilteredUsers(filterUsers(payload.data)(userInput))
-  }, [userInput, payload.data])
+    setIsSearching(true);
+    if(debouncedSearchTerm) {
+      setFilteredUsers(getFilteredUsers(payload.data, debouncedSearchTerm));
+      setIsSearching(false);
+    }else {
+      setFilteredUsers(payload.data);
+      setIsSearching(false);
+    }
+  }, [debouncedSearchTerm, payload.data])
 
   return (
     <StyledWrapper>
       <StyledTitle>Users list</StyledTitle>
       <Input value={userInput} handleValueChange={setUserInput} />
-        <UserList data={filteredUsers} />
+      { isSearching && <div>Searching...</div> }
+      <UserList data={filteredUsers} />
+      { error && <div> Błąd 404.</div> }
     </StyledWrapper>
   );
 };
-
-export default UserSearch;
