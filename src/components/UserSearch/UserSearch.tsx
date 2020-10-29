@@ -9,7 +9,6 @@ import { useDebounce } from '../../utils/useDebounce'
 
 export const UserSearch: FC = () => {
   
-
   const [userInput, setUserInput] = useState('');
   const [payload, setPayload] = useState<{ data: User[]}>({
     data: []
@@ -18,8 +17,6 @@ export const UserSearch: FC = () => {
   const [ error, setError ] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const debouncedSearchTerm = useDebounce(userInput, 500);
-
-  
 
   const getUserData = async () => {
     try {
